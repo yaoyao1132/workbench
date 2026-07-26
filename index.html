@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的工作台</title>
+<style>
+:root {
+  --bg: #1a1d24;
+  --card: #252830;
+  --card-hover: #2d3139;
+  --text: #e8e8e8;
+  --text-light: #8b8e95;
+  --border: #353941;
+  --primary: #e8a87c;
+  --primary-hover: #d4956a;
+  --success: #7fb069;
+  --danger: #e07a5f;
+  --warning: #f2cc8f;
+  --info: #81b29a;
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* 顶部 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-left h1 { font-size: 22px; font-weight: 600; }
+.header-left p { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+
+.header-right { text-align: right; }
+.clock { font-size: 28px; font-weight: 300; color: var(--primary); font-variant-numeric: tabular-nums; }
+.date { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+/* 网格 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.card-title .icon { font-size: 22px; }
+
+/* 输入框 */
+input[type="text"], input[type="number"], select, textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  width: 100%;
+}
+
+input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+input::placeholder, textarea::placeholder { color: var(--text-light); opacity: 0.6; }
+
+textarea { resize: vertical; min-height: 100px; }
+
+/* 按钮 */
+.btn {
+  padding: 10px 18px;
+  background: var(--primary);
+  color: #1a1d24;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--primary-hover); }
+
+/* ========== 麻将战绩 ========== */
+.mj-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat-box {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 12px 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.stat-value { font-size: 22px; font-weight: 700; line-height: 1.2; }
+.stat-value.win { color: var(--success); }
+.stat-value.lose { color: var(--danger); }
+.stat-value.neutral { color: var(--warning); }
+.stat-value.muted { color: var(--text-light); }
+.stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+.mj-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.mj-form select { width: 80px; flex-shrink: 0; }
+.mj-form input[type="number"] { width: 90px; flex-shrink: 0; }
+.mj-form input[type="text"] { flex: 1; min-width: 100px; }
+
+/* 走势图 */
+.mj-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  height: 50px;
+  padding: 10px 4px;
+  background: var(--bg);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.mj-bar { min-width: 14px; border-radius: 3px 3px 0 0; transition: height 0.3s; }
+.mj-bar.win { background: var(--success); }
+.mj-bar.lose { background: var(--danger); }
+.mj-bar.draw { background: var(--text-light); }
+
+/* 列表 */
+.list { list-style: none; max-height: 320px; overflow-y: auto; }
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+
+.list-item:last-child { border-bottom: none; }
+
+.mj-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  min-width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.mj-tag.win { background: rgba(127, 176, 105, 0.15); color: var(--success); }
+.mj-tag.lose { background: rgba(224, 122, 95, 0.15); color: var(--danger); }
+.mj-tag.draw { background: rgba(139, 142, 149, 0.15); color: var(--text-light); }
+
+.mj-amount { font-size: 16px; font-weight: 700; min-width: 55px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.mj-amount.win { color: var(--success); }
+.mj-amount.lose { color: var(--danger); }
+.mj-amount.draw { color: var(--text-light); }
+
+.item-text { flex: 1; font-size: 13px; color: var(--text-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-date { font-size: 12px; color: var(--text-light); flex-shrink: 0; }
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+.list-item:hover .delete-btn { opacity: 1; }
+
+/* ========== 穿搭购物清单 ========== */
+.shop-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.shop-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.shop-form input[type="text"] { flex: 1; min-width: 120px; }
+.shop-form input[type="number"] { width: 90px; flex-shrink: 0; }
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+
+.shop-item:last-child { border-bottom: none; }
+
+.shop-check {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  background: var(--bg);
+}
+
+.shop-check.done {
+  background: var(--success);
+  border-color: var(--success);
+  color: #1a1d24;
+}
+
+.shop-name { flex: 1; font-size: 14px; word-break: break-word; }
+.shop-item.bought .shop-name { text-decoration: line-through; color: var(--text-light); }
+
+.shop-price { font-size: 15px; font-weight: 600; color: var(--warning); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+
+.shop-cat {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.shop-cat.top { background: rgba(232, 168, 124, 0.15); color: var(--primary); }
+.shop-cat.bottom { background: rgba(129, 178, 154, 0.15); color: var(--info); }
+.shop-cat.shoe { background: rgba(242, 204, 143, 0.15); color: var(--warning); }
+.shop-cat.acc { background: rgba(224, 122, 95, 0.15); color: var(--danger); }
+.shop-cat.other { background: rgba(139, 142, 149, 0.15); color: var(--text-light); }
+
+/* ========== 笔记 ========== */
+.note-area {
+  width: 100%;
+  min-height: 180px;
+  font-family: inherit;
+  line-height: 1.7;
+}
+.note-status { font-size: 12px; color: var(--text-light); margin-top: 8px; text-align: right; }
+
+/* 空状态 */
+.empty { text-align: center; color: var(--text-light); font-size: 13px; padding: 24px 0; opacity: 0.6; }
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* 响应式 */
+@media (max-width: 640px) {
+  body { padding: 12px; }
+  .header { padding: 14px 16px; }
+  .header-left h1 { font-size: 18px; }
+  .clock { font-size: 22px; }
+  .mj-stats, .shop-stats { grid-template-columns: repeat(2, 1fr); }
+  .grid { grid-template-columns: 1fr; gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部 -->
+<div class="header">
+  <div class="header-left">
+    <h1>🀄 我的工作台</h1>
+    <p>麻将战绩 · 穿搭购物 · 随手记</p>
+  </div>
+  <div class="header-right">
+    <div class="clock" id="clock">00:00</div>
+    <div class="date" id="date"></div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- 麻将战绩 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🀄</span> 麻将战绩</div>
+
+    <div class="mj-stats">
+      <div class="stat-box">
+        <div class="stat-value muted" id="mjTotal">0</div>
+        <div class="stat-label">总场数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value win" id="mjWin">0</div>
+        <div class="stat-label">胜场</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value neutral" id="mjRate">0%</div>
+        <div class="stat-label">胜率</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value muted" id="mjProfit">0</div>
+        <div class="stat-label">累计盈亏</div>
+      </div>
+    </div>
+
+    <div class="mj-form">
+      <select id="mjResult">
+        <option value="win">赢</option>
+        <option value="lose">输</option>
+        <option value="draw">平</option>
+      </select>
+      <input type="number" id="mjAmount" placeholder="金额">
+      <input type="text" id="mjNote" placeholder="备注（和谁打、关键牌）">
+      <button class="btn" onclick="addMj()">记一笔</button>
+    </div>
+
+    <div class="mj-chart" id="mjChart"></div>
+
+    <ul class="list" id="mjList"></ul>
+  </div>
+
+  <!-- 穿搭购物清单 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🛍</span> 穿搭购物清单</div>
+
+    <div class="shop-stats">
+      <div class="stat-box">
+        <div class="stat-value muted" id="shopTotal">0</div>
+        <div class="stat-label">想买</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value win" id="shopBought">0</div>
+        <div class="stat-label">已购</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value neutral" id="shopBudget">0</div>
+        <div class="stat-label">预计花费</div>
+      </div>
+    </div>
+
+    <div class="shop-form">
+      <input type="text" id="shopName" placeholder="想买的单品（如：白色阔腿裤）">
+      <input type="number" id="shopPrice" placeholder="价格">
+      <select id="shopCat" style="width:auto;flex-shrink:0;">
+        <option value="top">上衣</option>
+        <option value="bottom">下装</option>
+        <option value="shoe">鞋子</option>
+        <option value="acc">配饰</option>
+        <option value="other">其他</option>
+      </select>
+      <button class="btn" onclick="addShop()">加入清单</button>
+    </div>
+
+    <ul class="list" id="shopList"></ul>
+  </div>
+
+  <!-- 快速笔记 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📝</span> 随手记</div>
+    <textarea class="note-area" id="noteArea" placeholder="记下任何想记的东西..."></textarea>
+    <div class="note-status" id="noteStatus">已自动保存 ✓</div>
+  </div>
+
+</div>
+
+<script>
+// ========== 时钟 ==========
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+  const days = ['日','一','二','三','四','五','六'];
+  document.getElementById('date').textContent =
+    `${now.getMonth()+1}月${now.getDate()}日 星期${days[now.getDay()]}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ========== 麻将战绩 ==========
+let mjRecords = JSON.parse(localStorage.getItem('mjRecords') || '[]');
+
+function addMj() {
+  const result = document.getElementById('mjResult').value;
+  const amount = parseInt(document.getElementById('mjAmount').value) || 0;
+  const note = document.getElementById('mjNote').value.trim();
+  if (amount === 0 && !note) return;
+  const now = new Date();
+  mjRecords.push({
+    id: Date.now(),
+    result, amount, note,
+    date: `${now.getMonth()+1}/${now.getDate()}`,
+    ts: now.getTime()
+  });
+  document.getElementById('mjAmount').value = '';
+  document.getElementById('mjNote').value = '';
+  localStorage.setItem('mjRecords', JSON.stringify(mjRecords));
+  renderMj();
+}
+
+function delMj(id) {
+  mjRecords = mjRecords.filter(r => r.id !== id);
+  localStorage.setItem('mjRecords', JSON.stringify(mjRecords));
+  renderMj();
+}
+
+function renderMj() {
+  const total = mjRecords.length;
+  const wins = mjRecords.filter(r => r.result === 'win').length;
+  const rate = total > 0 ? Math.round(wins / total * 100) : 0;
+  const profit = mjRecords.reduce((s, r) => r.result === 'win' ? s + r.amount : r.result === 'lose' ? s - r.amount : s, 0);
+
+  document.getElementById('mjTotal').textContent = total;
+  document.getElementById('mjWin').textContent = wins;
+  document.getElementById('mjRate').textContent = rate + '%';
+  const profitEl = document.getElementById('mjProfit');
+  profitEl.textContent = (profit >= 0 ? '+' : '') + profit;
+  profitEl.className = 'stat-value ' + (profit > 0 ? 'win' : profit < 0 ? 'lose' : 'muted');
+
+  // 走势图
+  const chart = document.getElementById('mjChart');
+  const recent = mjRecords.slice(-12);
+  if (recent.length === 0) {
+    chart.innerHTML = '<div style="margin:auto;color:var(--text-light);font-size:12px;">还没有记录</div>';
+  } else {
+    const max = Math.max(...recent.map(r => r.amount), 10);
+    chart.innerHTML = recent.map(r => {
+      const h = r.amount > 0 ? (r.amount / max * 80 + 20) : 25;
+      return `<div class="mj-bar ${r.result}" style="height:${h}%" title="${r.date} ${r.result==='win'?'赢':r.result==='lose'?'输':'平'} ${r.amount}"></div>`;
+    }).join('');
+  }
+
+  // 列表
+  const list = document.getElementById('mjList');
+  if (mjRecords.length === 0) {
+    list.innerHTML = '<div class="empty">还没有战绩，记第一场吧~</div>';
+  } else {
+    const txt = { win: '赢', lose: '输', draw: '平' };
+    list.innerHTML = [...mjRecords].reverse().map(r => `
+      <li class="list-item">
+        <span class="mj-tag ${r.result}">${txt[r.result]}</span>
+        <span class="mj-amount ${r.result}">${r.result==='win'?'+':r.result==='lose'?'-':''}${r.amount}</span>
+        <span class="item-text">${r.note ? escapeHtml(r.note) : '—'}</span>
+        <span class="item-date">${r.date}</span>
+        <button class="delete-btn" onclick="delMj(${r.id})">×</button>
+      </li>
+    `).join('');
+  }
+}
+
+document.getElementById('mjAmount').addEventListener('keypress', e => { if(e.key==='Enter') addMj(); });
+document.getElementById('mjNote').addEventListener('keypress', e => { if(e.key==='Enter') addMj(); });
+renderMj();
+
+// ========== 穿搭购物清单 ==========
+let shopList = JSON.parse(localStorage.getItem('shopList') || '[]');
+
+function addShop() {
+  const name = document.getElementById('shopName').value.trim();
+  const price = parseInt(document.getElementById('shopPrice').value) || 0;
+  const cat = document.getElementById('shopCat').value;
+  if (!name) return;
+  const now = new Date();
+  shopList.push({
+    id: Date.now(),
+    name, price, cat, bought: false,
+    date: `${now.getMonth()+1}/${now.getDate()}`
+  });
+  document.getElementById('shopName').value = '';
+  document.getElementById('shopPrice').value = '';
+  localStorage.setItem('shopList', JSON.stringify(shopList));
+  renderShop();
+}
+
+function toggleShop(id) {
+  const item = shopList.find(i => i.id === id);
+  if (item) { item.bought = !item.bought; localStorage.setItem('shopList', JSON.stringify(shopList)); renderShop(); }
+}
+
+function delShop(id) {
+  shopList = shopList.filter(i => i.id !== id);
+  localStorage.setItem('shopList', JSON.stringify(shopList));
+  renderShop();
+}
+
+function renderShop() {
+  const total = shopList.length;
+  const bought = shopList.filter(i => i.bought).length;
+  const budget = shopList.filter(i => !i.bought).reduce((s, i) => s + i.price, 0);
+
+  document.getElementById('shopTotal').textContent = total;
+  document.getElementById('shopBought').textContent = bought;
+  document.getElementById('shopBudget').textContent = '¥' + budget;
+
+  const list = document.getElementById('shopList');
+  if (shopList.length === 0) {
+    list.innerHTML = '<div class="empty">还没有想买的，加一件吧~</div>';
+  } else {
+    const catTxt = { top: '上衣', bottom: '下装', shoe: '鞋子', acc: '配饰', other: '其他' };
+    list.innerHTML = [...shopList].reverse().map(i => `
+      <li class="list-item shop-item ${i.bought ? 'bought' : ''}">
+        <div class="shop-check ${i.bought ? 'done' : ''}" onclick="toggleShop(${i.id})">${i.bought ? '✓' : ''}</div>
+        <span class="shop-name">${escapeHtml(i.name)}</span>
+        <span class="shop-cat ${i.cat}">${catTxt[i.cat]}</span>
+        <span class="shop-price">¥${i.price}</span>
+        <button class="delete-btn" onclick="delShop(${i.id})">×</button>
+      </li>
+    `).join('');
+  }
+}
+
+document.getElementById('shopName').addEventListener('keypress', e => { if(e.key==='Enter') addShop(); });
+document.getElementById('shopPrice').addEventListener('keypress', e => { if(e.key==='Enter') addShop(); });
+renderShop();
+
+// ========== 笔记 ==========
+const noteArea = document.getElementById('noteArea');
+const noteStatus = document.getElementById('noteStatus');
+noteArea.value = localStorage.getItem('myNote') || '';
+let noteTimer;
+noteArea.addEventListener('input', () => {
+  noteStatus.textContent = '正在保存...';
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(() => {
+    localStorage.setItem('myNote', noteArea.value);
+    noteStatus.textContent = '已自动保存 ✓';
+  }, 500);
+});
+
+// ========== 工具 ==========
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+
+</body>
+</html>
