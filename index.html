@@ -4,25 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我的工作台</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d4a3e'/><text y='72' x='50' font-size='60' text-anchor='middle' fill='%23f2e8d5'>🀄</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d4a3e'/><text y='72' x='50' font-size='60' text-anchor='middle' fill='%23f2e8d5'>🀄</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23ff8fab'/><circle cx='50' cy='38' r='15' fill='%23fce4ec'/><path d='M30 85 Q30 60 50 60 Q70 60 70 85 Z' fill='%23fce4ec'/><circle cx='44' cy='36' r='2' fill='%23333'/><circle cx='56' cy='36' r='2' fill='%23333'/><path d='M46 43 Q50 46 54 43' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/><path d='M35 30 Q35 18 50 18 Q65 18 65 30 Q62 25 50 25 Q38 25 35 30 Z' fill='%234a2d50'/><path d='M38 50 Q42 52 46 50' stroke='%23ff8fab' stroke-width='2' fill='none' stroke-linecap='round'/><path d='M54 50 Q58 52 62 50' stroke='%23ff8fab' stroke-width='2' fill='none' stroke-linecap='round'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23ff8fab'/><circle cx='50' cy='38' r='15' fill='%23fce4ec'/><path d='M30 85 Q30 60 50 60 Q70 60 70 85 Z' fill='%23fce4ec'/><circle cx='44' cy='36' r='2' fill='%23333'/><circle cx='56' cy='36' r='2' fill='%23333'/><path d='M46 43 Q50 46 54 43' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/><path d='M35 30 Q35 18 50 18 Q65 18 65 30 Q62 25 50 25 Q38 25 35 30 Z' fill='%234a2d50'/><path d='M38 50 Q42 52 46 50' stroke='%23ff8fab' stroke-width='2' fill='none' stroke-linecap='round'/><path d='M54 50 Q58 52 62 50' stroke='%23ff8fab' stroke-width='2' fill='none' stroke-linecap='round'/></svg>">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="工作台">
 <style>
 :root {
-  --bg: #1a2e22;
-  --card: #243b2e;
-  --card-hover: #2d4a3e;
-  --text: #f2e8d5;
-  --text-light: #a8b5a0;
-  --border: #3a5446;
-  --primary: #d4a574;
-  --primary-hover: #c4956a;
-  --success: #8fb573;
-  --danger: #c17b5a;
-  --warning: #e8c878;
-  --info: #7ba68a;
+  --bg: #2a1a2e;
+  --card: #3d2440;
+  --card-hover: #4a2d50;
+  --text: #fce4ec;
+  --text-light: #c9a0b0;
+  --border: #5a3560;
+  --primary: #ff8fab;
+  --primary-hover: #f06292;
+  --success: #f48fb1;
+  --danger: #ef5350;
+  --warning: #ffb74d;
+  --info: #ce93d8;
   --shadow: 0 4px 12px rgba(0,0,0,0.3);
   --radius: 14px;
 }
@@ -33,8 +33,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--bg);
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(123, 166, 138, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(212, 165, 116, 0.06) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(255, 143, 171, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(206, 147, 216, 0.08) 0%, transparent 40%);
   color: var(--text);
   min-height: 100vh;
   padding: 20px;
@@ -110,7 +110,7 @@ textarea { resize: vertical; min-height: 100px; }
 .btn {
   padding: 10px 18px;
   background: var(--primary);
-  color: #1a2e22;
+  color: #2a1a2e;
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -242,7 +242,7 @@ textarea { resize: vertical; min-height: 100px; }
   justify-content: center;
   transition: all 0.2s;
   background: var(--bg);
-  color: #1a2e22;
+  color: #2a1a2e;
   font-size: 14px;
   font-weight: bold;
 }
