@@ -4,20 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我的工作台</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d4a3e'/><text y='72' x='50' font-size='60' text-anchor='middle' fill='%23f2e8d5'>🀄</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d4a3e'/><text y='72' x='50' font-size='60' text-anchor='middle' fill='%23f2e8d5'>🀄</text></svg>">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="工作台">
 <style>
 :root {
-  --bg: #1a1d24;
-  --card: #252830;
-  --card-hover: #2d3139;
-  --text: #e8e8e8;
-  --text-light: #8b8e95;
-  --border: #353941;
-  --primary: #e8a87c;
-  --primary-hover: #d4956a;
-  --success: #7fb069;
-  --danger: #e07a5f;
-  --warning: #f2cc8f;
-  --info: #81b29a;
+  --bg: #1a2e22;
+  --card: #243b2e;
+  --card-hover: #2d4a3e;
+  --text: #f2e8d5;
+  --text-light: #a8b5a0;
+  --border: #3a5446;
+  --primary: #d4a574;
+  --primary-hover: #c4956a;
+  --success: #8fb573;
+  --danger: #c17b5a;
+  --warning: #e8c878;
+  --info: #7ba68a;
   --shadow: 0 4px 12px rgba(0,0,0,0.3);
   --radius: 14px;
 }
@@ -27,13 +32,15 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--bg);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(123, 166, 138, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(212, 165, 116, 0.06) 0%, transparent 40%);
   color: var(--text);
   min-height: 100vh;
   padding: 20px;
   line-height: 1.6;
 }
 
-/* 顶部 */
 .header {
   display: flex;
   justify-content: space-between;
@@ -45,6 +52,7 @@ body {
   box-shadow: var(--shadow);
   flex-wrap: wrap;
   gap: 12px;
+  border: 1px solid var(--border);
 }
 
 .header-left h1 { font-size: 22px; font-weight: 600; }
@@ -54,7 +62,6 @@ body {
 .clock { font-size: 28px; font-weight: 300; color: var(--primary); font-variant-numeric: tabular-nums; }
 .date { font-size: 12px; color: var(--text-light); margin-top: 2px; }
 
-/* 网格 */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -68,6 +75,7 @@ body {
   border-radius: var(--radius);
   padding: 20px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--border);
 }
 
 .card-title {
@@ -82,7 +90,6 @@ body {
 
 .card-title .icon { font-size: 22px; }
 
-/* 输入框 */
 input[type="text"], input[type="number"], select, textarea {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -98,14 +105,12 @@ input[type="text"], input[type="number"], select, textarea {
 
 input:focus, select:focus, textarea:focus { border-color: var(--primary); }
 input::placeholder, textarea::placeholder { color: var(--text-light); opacity: 0.6; }
-
 textarea { resize: vertical; min-height: 100px; }
 
-/* 按钮 */
 .btn {
   padding: 10px 18px;
   background: var(--primary);
-  color: #1a1d24;
+  color: #1a2e22;
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -117,13 +122,15 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .btn:hover { background: var(--primary-hover); }
 
-/* ========== 麻将战绩 ========== */
-.mj-stats {
+/* 麻将战绩 */
+.mj-stats, .shop-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-bottom: 16px;
 }
+
+.shop-stats { grid-template-columns: repeat(3, 1fr); }
 
 .stat-box {
   background: var(--bg);
@@ -140,7 +147,7 @@ textarea { resize: vertical; min-height: 100px; }
 .stat-value.muted { color: var(--text-light); }
 .stat-label { font-size: 11px; color: var(--text-light); margin-top: 4px; }
 
-.mj-form {
+.mj-form, .shop-form {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -155,7 +162,9 @@ textarea { resize: vertical; min-height: 100px; }
 .mj-form input[type="number"] { width: 90px; flex-shrink: 0; }
 .mj-form input[type="text"] { flex: 1; min-width: 100px; }
 
-/* 走势图 */
+.shop-form input[type="text"] { flex: 1; min-width: 120px; }
+.shop-form input[type="number"] { width: 90px; flex-shrink: 0; }
+
 .mj-chart {
   display: flex;
   align-items: flex-end;
@@ -174,7 +183,6 @@ textarea { resize: vertical; min-height: 100px; }
 .mj-bar.lose { background: var(--danger); }
 .mj-bar.draw { background: var(--text-light); }
 
-/* 列表 */
 .list { list-style: none; max-height: 320px; overflow-y: auto; }
 
 .list-item {
@@ -196,9 +204,9 @@ textarea { resize: vertical; min-height: 100px; }
   text-align: center;
   flex-shrink: 0;
 }
-.mj-tag.win { background: rgba(127, 176, 105, 0.15); color: var(--success); }
-.mj-tag.lose { background: rgba(224, 122, 95, 0.15); color: var(--danger); }
-.mj-tag.draw { background: rgba(139, 142, 149, 0.15); color: var(--text-light); }
+.mj-tag.win { background: rgba(143, 181, 115, 0.15); color: var(--success); }
+.mj-tag.lose { background: rgba(193, 123, 90, 0.15); color: var(--danger); }
+.mj-tag.draw { background: rgba(168, 181, 160, 0.15); color: var(--text-light); }
 
 .mj-amount { font-size: 16px; font-weight: 700; min-width: 55px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 .mj-amount.win { color: var(--success); }
@@ -221,38 +229,7 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .list-item:hover .delete-btn { opacity: 1; }
 
-/* ========== 穿搭购物清单 ========== */
-.shop-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.shop-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding: 12px;
-  background: var(--bg);
-  border-radius: 10px;
-  border: 1px solid var(--border);
-}
-
-.shop-form input[type="text"] { flex: 1; min-width: 120px; }
-.shop-form input[type="number"] { width: 90px; flex-shrink: 0; }
-
-.shop-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  gap: 10px;
-}
-
-.shop-item:last-child { border-bottom: none; }
-
+/* 购物清单 */
 .shop-check {
   width: 22px;
   height: 22px;
@@ -265,13 +242,12 @@ textarea { resize: vertical; min-height: 100px; }
   justify-content: center;
   transition: all 0.2s;
   background: var(--bg);
+  color: #1a2e22;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.shop-check.done {
-  background: var(--success);
-  border-color: var(--success);
-  color: #1a1d24;
-}
+.shop-check.done { background: var(--success); border-color: var(--success); }
 
 .shop-name { flex: 1; font-size: 14px; word-break: break-word; }
 .shop-item.bought .shop-name { text-decoration: line-through; color: var(--text-light); }
@@ -284,13 +260,13 @@ textarea { resize: vertical; min-height: 100px; }
   border-radius: 10px;
   flex-shrink: 0;
 }
-.shop-cat.top { background: rgba(232, 168, 124, 0.15); color: var(--primary); }
-.shop-cat.bottom { background: rgba(129, 178, 154, 0.15); color: var(--info); }
-.shop-cat.shoe { background: rgba(242, 204, 143, 0.15); color: var(--warning); }
-.shop-cat.acc { background: rgba(224, 122, 95, 0.15); color: var(--danger); }
-.shop-cat.other { background: rgba(139, 142, 149, 0.15); color: var(--text-light); }
+.shop-cat.top { background: rgba(212, 165, 116, 0.15); color: var(--primary); }
+.shop-cat.bottom { background: rgba(123, 166, 138, 0.15); color: var(--info); }
+.shop-cat.shoe { background: rgba(232, 200, 120, 0.15); color: var(--warning); }
+.shop-cat.acc { background: rgba(193, 123, 90, 0.15); color: var(--danger); }
+.shop-cat.other { background: rgba(168, 181, 160, 0.15); color: var(--text-light); }
 
-/* ========== 笔记 ========== */
+/* 笔记 */
 .note-area {
   width: 100%;
   min-height: 180px;
@@ -299,15 +275,77 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .note-status { font-size: 12px; color: var(--text-light); margin-top: 8px; text-align: right; }
 
-/* 空状态 */
+/* 麻将灵感 */
+.inspire-form {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.inspire-form input, .inspire-form textarea {
+  margin-bottom: 8px;
+}
+
+.inspire-form textarea {
+  min-height: 80px;
+  width: 100%;
+}
+
+.inspire-form .btn { width: 100%; }
+
+.inspire-list { list-style: none; max-height: 320px; overflow-y: auto; }
+
+.inspire-item {
+  padding: 14px;
+  margin-bottom: 10px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+}
+
+.inspire-item:last-child { margin-bottom: 0; }
+
+.inspire-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.inspire-content {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.inspire-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.inspire-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(212, 165, 116, 0.15);
+  color: var(--primary);
+}
+
+.inspire-date { font-size: 12px; color: var(--text-light); }
+
 .empty { text-align: center; color: var(--text-light); font-size: 13px; padding: 24px 0; opacity: 0.6; }
 
-/* 滚动条 */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-/* 响应式 */
 @media (max-width: 640px) {
   body { padding: 12px; }
   .header { padding: 14px 16px; }
@@ -320,11 +358,10 @@ textarea { resize: vertical; min-height: 100px; }
 </head>
 <body>
 
-<!-- 顶部 -->
 <div class="header">
   <div class="header-left">
     <h1>🀄 我的工作台</h1>
-    <p>麻将战绩 · 穿搭购物 · 随手记</p>
+    <p>麻将战绩 · 穿搭购物 · 灵感笔记</p>
   </div>
   <div class="header-right">
     <div class="clock" id="clock">00:00</div>
@@ -337,7 +374,6 @@ textarea { resize: vertical; min-height: 100px; }
   <!-- 麻将战绩 -->
   <div class="card">
     <div class="card-title"><span class="icon">🀄</span> 麻将战绩</div>
-
     <div class="mj-stats">
       <div class="stat-box">
         <div class="stat-value muted" id="mjTotal">0</div>
@@ -356,7 +392,6 @@ textarea { resize: vertical; min-height: 100px; }
         <div class="stat-label">累计盈亏</div>
       </div>
     </div>
-
     <div class="mj-form">
       <select id="mjResult">
         <option value="win">赢</option>
@@ -367,16 +402,13 @@ textarea { resize: vertical; min-height: 100px; }
       <input type="text" id="mjNote" placeholder="备注（和谁打、关键牌）">
       <button class="btn" onclick="addMj()">记一笔</button>
     </div>
-
     <div class="mj-chart" id="mjChart"></div>
-
     <ul class="list" id="mjList"></ul>
   </div>
 
   <!-- 穿搭购物清单 -->
   <div class="card">
     <div class="card-title"><span class="icon">🛍</span> 穿搭购物清单</div>
-
     <div class="shop-stats">
       <div class="stat-box">
         <div class="stat-value muted" id="shopTotal">0</div>
@@ -391,7 +423,6 @@ textarea { resize: vertical; min-height: 100px; }
         <div class="stat-label">预计花费</div>
       </div>
     </div>
-
     <div class="shop-form">
       <input type="text" id="shopName" placeholder="想买的单品（如：白色阔腿裤）">
       <input type="number" id="shopPrice" placeholder="价格">
@@ -404,8 +435,18 @@ textarea { resize: vertical; min-height: 100px; }
       </select>
       <button class="btn" onclick="addShop()">加入清单</button>
     </div>
-
     <ul class="list" id="shopList"></ul>
+  </div>
+
+  <!-- 麻将灵感 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">💡</span> 麻将灵感</div>
+    <div class="inspire-form">
+      <input type="text" id="inspireTitle" placeholder="标题（如：听牌技巧、经典牌局复盘）">
+      <textarea id="inspireContent" placeholder="写下你的心得、技巧、或某场牌的复盘..."></textarea>
+      <button class="btn" onclick="addInspire()">记录灵感</button>
+    </div>
+    <ul class="inspire-list" id="inspireList"></ul>
   </div>
 
   <!-- 快速笔记 -->
@@ -418,7 +459,7 @@ textarea { resize: vertical; min-height: 100px; }
 </div>
 
 <script>
-// ========== 时钟 ==========
+// 时钟
 function updateClock() {
   const now = new Date();
   const h = String(now.getHours()).padStart(2, '0');
@@ -431,7 +472,7 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// ========== 麻将战绩 ==========
+// 麻将战绩
 let mjRecords = JSON.parse(localStorage.getItem('mjRecords') || '[]');
 
 function addMj() {
@@ -440,12 +481,7 @@ function addMj() {
   const note = document.getElementById('mjNote').value.trim();
   if (amount === 0 && !note) return;
   const now = new Date();
-  mjRecords.push({
-    id: Date.now(),
-    result, amount, note,
-    date: `${now.getMonth()+1}/${now.getDate()}`,
-    ts: now.getTime()
-  });
+  mjRecords.push({ id: Date.now(), result, amount, note, date: `${now.getMonth()+1}/${now.getDate()}`, ts: now.getTime() });
   document.getElementById('mjAmount').value = '';
   document.getElementById('mjNote').value = '';
   localStorage.setItem('mjRecords', JSON.stringify(mjRecords));
@@ -463,7 +499,6 @@ function renderMj() {
   const wins = mjRecords.filter(r => r.result === 'win').length;
   const rate = total > 0 ? Math.round(wins / total * 100) : 0;
   const profit = mjRecords.reduce((s, r) => r.result === 'win' ? s + r.amount : r.result === 'lose' ? s - r.amount : s, 0);
-
   document.getElementById('mjTotal').textContent = total;
   document.getElementById('mjWin').textContent = wins;
   document.getElementById('mjRate').textContent = rate + '%';
@@ -471,7 +506,6 @@ function renderMj() {
   profitEl.textContent = (profit >= 0 ? '+' : '') + profit;
   profitEl.className = 'stat-value ' + (profit > 0 ? 'win' : profit < 0 ? 'lose' : 'muted');
 
-  // 走势图
   const chart = document.getElementById('mjChart');
   const recent = mjRecords.slice(-12);
   if (recent.length === 0) {
@@ -484,7 +518,6 @@ function renderMj() {
     }).join('');
   }
 
-  // 列表
   const list = document.getElementById('mjList');
   if (mjRecords.length === 0) {
     list.innerHTML = '<div class="empty">还没有战绩，记第一场吧~</div>';
@@ -506,7 +539,7 @@ document.getElementById('mjAmount').addEventListener('keypress', e => { if(e.key
 document.getElementById('mjNote').addEventListener('keypress', e => { if(e.key==='Enter') addMj(); });
 renderMj();
 
-// ========== 穿搭购物清单 ==========
+// 穿搭购物清单
 let shopList = JSON.parse(localStorage.getItem('shopList') || '[]');
 
 function addShop() {
@@ -515,11 +548,7 @@ function addShop() {
   const cat = document.getElementById('shopCat').value;
   if (!name) return;
   const now = new Date();
-  shopList.push({
-    id: Date.now(),
-    name, price, cat, bought: false,
-    date: `${now.getMonth()+1}/${now.getDate()}`
-  });
+  shopList.push({ id: Date.now(), name, price, cat, bought: false, date: `${now.getMonth()+1}/${now.getDate()}` });
   document.getElementById('shopName').value = '';
   document.getElementById('shopPrice').value = '';
   localStorage.setItem('shopList', JSON.stringify(shopList));
@@ -541,7 +570,6 @@ function renderShop() {
   const total = shopList.length;
   const bought = shopList.filter(i => i.bought).length;
   const budget = shopList.filter(i => !i.bought).reduce((s, i) => s + i.price, 0);
-
   document.getElementById('shopTotal').textContent = total;
   document.getElementById('shopBought').textContent = bought;
   document.getElementById('shopBudget').textContent = '¥' + budget;
@@ -567,7 +595,55 @@ document.getElementById('shopName').addEventListener('keypress', e => { if(e.key
 document.getElementById('shopPrice').addEventListener('keypress', e => { if(e.key==='Enter') addShop(); });
 renderShop();
 
-// ========== 笔记 ==========
+// 麻将灵感
+let inspires = JSON.parse(localStorage.getItem('inspires') || '[]');
+
+function addInspire() {
+  const title = document.getElementById('inspireTitle').value.trim();
+  const content = document.getElementById('inspireContent').value.trim();
+  if (!title && !content) return;
+  const now = new Date();
+  inspires.push({
+    id: Date.now(),
+    title: title || '无标题',
+    content: content,
+    date: `${now.getMonth()+1}/${now.getDate()}`,
+    ts: now.getTime()
+  });
+  document.getElementById('inspireTitle').value = '';
+  document.getElementById('inspireContent').value = '';
+  localStorage.setItem('inspires', JSON.stringify(inspires));
+  renderInspire();
+}
+
+function delInspire(id) {
+  inspires = inspires.filter(i => i.id !== id);
+  localStorage.setItem('inspires', JSON.stringify(inspires));
+  renderInspire();
+}
+
+function renderInspire() {
+  const list = document.getElementById('inspireList');
+  if (inspires.length === 0) {
+    list.innerHTML = '<div class="empty">还没有灵感，记下第一个吧~</div>';
+  } else {
+    list.innerHTML = [...inspires].reverse().map(i => `
+      <li class="inspire-item">
+        <div class="inspire-title">${escapeHtml(i.title)}</div>
+        <div class="inspire-content">${escapeHtml(i.content)}</div>
+        <div class="inspire-meta">
+          <span class="inspire-tag">💡 心得</span>
+          <span class="inspire-date">${i.date}</span>
+          <button class="delete-btn" onclick="delInspire(${i.id})">×</button>
+        </div>
+      </li>
+    `).join('');
+  }
+}
+
+renderInspire();
+
+// 笔记
 const noteArea = document.getElementById('noteArea');
 const noteStatus = document.getElementById('noteStatus');
 noteArea.value = localStorage.getItem('myNote') || '';
@@ -581,7 +657,6 @@ noteArea.addEventListener('input', () => {
   }, 500);
 });
 
-// ========== 工具 ==========
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
